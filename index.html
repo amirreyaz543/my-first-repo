@@ -1,11 +1,393 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Happy Birthday, My Love 🎂❤️</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg1:#0f1021; --bg2:#42275a; --accent:#ff7eb6; --accent2:#ffd166; --card:#1a1b33; --soft:#ffffffcc; --muted:#ffffff88;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto; color:#fff; overflow-x:hidden;
+      background: radial-gradient(1200px 800px at 10% 10%, #1f1147 0%, #0b0b1d 65%),
+                  linear-gradient(135deg, var(--bg2), #162447);
+      background-attachment: fixed;
+    }
+
+    /* Animated gradient fog */
+    .bg-blob{
+      position:fixed; inset:-20vmax; pointer-events:none; z-index:-1; filter:blur(60px) saturate(140%); opacity:.35;
+      background: conic-gradient(from 90deg, #ff8fab, #ffd166, #80ed99, #9ab3f5, #ff8fab);
+      animation: spin 30s linear infinite;
+    }
+    @keyframes spin{to{transform:rotate(1turn)}}
+
+    header{
+      min-height:100svh; display:grid; place-items:center; text-align:center; padding:6rem 1.25rem 4rem;
+      position:relative; isolation:isolate;
+    }
+    .hero{
+      max-width:1100px; margin:auto; display:grid; gap:1.5rem;
+    }
+    .hero h1{
+      font-family:"Great Vibes", cursive; font-size: clamp(2.8rem, 8vw, 6rem); line-height:1.05; margin:0;
+      text-shadow:0 10px 40px #0006;
+    }
+    .type{
+      font-weight:600; font-size:clamp(1rem, 3.2vw, 1.4rem); color:var(--soft);
+    }
+    .cta{display:flex; gap:.8rem; justify-content:center; flex-wrap:wrap; margin-top:.5rem}
+    .btn{
+      background:linear-gradient(135deg,var(--accent),#ff3d77); color:#0a0a14; border:0; padding:.9rem 1.1rem; border-radius:1rem; font-weight:800; cursor:pointer;
+      box-shadow:0 10px 30px #ff3d7740; transition:.25s transform,.25s filter;
+    }
+    .btn.secondary{background:#ffffff12; color:#fff; border:1px solid #ffffff22}
+    .btn:hover{transform:translateY(-2px); filter:saturate(120%)}
+
+    /* Floating hearts */
+    .heart{position:absolute; font-size:18px; opacity:.9; animation:floatUp 6s linear forwards}
+    @keyframes floatUp{to{transform:translateY(-120vh) scale(1.4); opacity:0}}
+
+    /* Section base */
+    section{padding:80px 18px}
+    .container{max-width:1100px; margin:auto}
+    .section-title{font-size:clamp(1.6rem,4.4vw,2.3rem); margin:0 0 18px;}
+    .muted{color:var(--muted)}
+
+    /* Gift box modal */
+    dialog{border:none; border-radius:20px; padding:0; background:transparent; width:min(95vw,680px)}
+    .modal-card{background:linear-gradient(180deg,#2a2550,#1a1b33); border:1px solid #ffffff1f; border-radius:24px; padding:24px; box-shadow:0 20px 80px #000a}
+    .gift{width:180px; height:180px; margin:10px auto 18px; position:relative}
+    .gift .box,.gift .lid{position:absolute; inset:0; border-radius:16px}
+    .gift .box{background:linear-gradient(135deg,#ff3d77,#ffafbd); transform:translateY(20px)}
+    .gift .lid{background:#fff; height:60px; top:-18px; transform-origin:bottom; border-radius:16px;}
+    .gift .ribbon{position:absolute; inset:0; background:repeating-linear-gradient(90deg,transparent 0 48%, #fff 48% 52%, transparent 52% 100%)}
+    .open .lid{animation:pop 1s ease forwards}
+    @keyframes pop{50%{transform:rotateX(70deg)}100%{transform:rotateX(70deg) translateY(-8px)}}
+
+    .note{background:#ffffff10; border:1px solid #ffffff2a; padding:14px 16px; border-radius:14px;}
+
+    /* Carousel */
+    .carousel{position:relative; overflow:hidden; border-radius:22px; border:1px solid #ffffff1f; box-shadow:0 10px 30px #0005}
+    .track{display:flex; transition:transform .6s ease}
+    .slide{min-width:100%; height:58svh; background:#000; position:relative}
+    .slide img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; filter:contrast(105%) saturate(110%)}
+    .slide::after{content:""; position:absolute; inset:0; background:linear-gradient(to top, #0008 0, #0000 40%)}
+    .dots{display:flex; gap:.5rem; justify-content:center; margin-top:12px}
+    .dot{width:10px; height:10px; border-radius:999px; background:#ffffff50; border:1px solid #ffffff80; cursor:pointer}
+    .dot.active{background:#fff}
+
+    /* Flip surprises */
+    .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px}
+    .flip{perspective:1000px}
+    .flip-inner{position:relative; transform-style:preserve-3d; transition:transform .7s}
+    .flip:hover .flip-inner,.flip.active .flip-inner{transform:rotateY(180deg)}
+    .front,.back{position:relative; background:var(--card); padding:22px; border-radius:18px; border:1px solid #ffffff1c; min-height:160px; display:grid; place-items:center; text-align:center;}
+    .back{transform:rotateY(180deg); position:absolute; inset:0}
+
+    /* Timeline */
+    .timeline{display:grid; gap:14px}
+    .moment{display:grid; grid-template-columns:80px 1fr; gap:12px; align-items:center}
+    .moment .dot{width:12px; height:12px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 6px #ff7eb620}
+    .moment .card{background:var(--card); border:1px solid #ffffff1c; border-radius:16px; padding:14px}
+
+    /* Quiz */
+    .quiz{background:var(--card); border:1px solid #ffffff1c; border-radius:18px; padding:18px; display:grid; gap:10px}
+    .q{display:grid; gap:8px}
+    .choices{display:grid; gap:8px}
+    .choice{background:#ffffff10; border:1px solid #ffffff22; padding:10px 12px; border-radius:12px; cursor:pointer}
+    .choice.correct{outline:2px solid #7cf29a}
+    .choice.wrong{outline:2px solid #ff8a8a}
+
+    /* Footer */
+    footer{padding:60px 18px 80px; text-align:center; color:var(--muted)}
+    .music-toggle{position:fixed; right:14px; bottom:14px; background:#ffffff12; border:1px solid #ffffff22; padding:.7rem 1rem; border-radius:999px; backdrop-filter:blur(8px);}
+
+    /* Responsive tweaks */
+    @media (max-width:640px){ .slide{height:58vh} .moment{grid-template-columns:60px 1fr} }
+  </style>
 </head>
 <body>
-    
+  <div class="bg-blob" aria-hidden="true"></div>
+
+  <header>
+    <div class="hero container">
+      <h1>Happy Birthday, <span id="herName">My Love</span> ✨</h1>
+      <div class="type" id="typewriter"></div>
+      <div class="cta">
+        <button class="btn" id="openGift">🎁 Open Your Gift</button>
+        <button class="btn secondary" id="burstConfetti">🎉 Celebrate</button>
+        <button class="btn secondary" id="scrollGallery">📸 Memories</button>
+      </div>
+    </div>
+    <canvas id="confetti" width="800" height="400" style="position:absolute; inset:0; width:100%; height:100%; pointer-events:none;"></canvas>
+  </header>
+
+  <!-- GALLERY / CAROUSEL -->
+  <section id="gallery">
+    <div class="container">
+      <h2 class="section-title">Our Favorite Moments 📸</h2>
+      <p class="muted">Swipe on mobile • Click dots on desktop</p>
+      <div class="carousel" id="carousel">
+        <div class="track" id="track">
+          <figure class="slide"><img src="https://images.unsplash.com/photo-1519744346361-d4a8e1a3f613" alt="celebration"></figure>
+          <figure class="slide"><img src="https://images.unsplash.com/photo-1607082349566-187342d3f3ca" alt="romantic"></figure>
+          <figure class="slide"><img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e" alt="us"></figure>
+          <figure class="slide"><img src="https://images.unsplash.com/photo-1504196606672-aef5c9cefc92" alt="love"></figure>
+        </div>
+      </div>
+      <div class="dots" id="dots"></div>
+    </div>
+  </section>
+
+  <!-- SURPRISE CARDS -->
+  <section>
+    <div class="container">
+      <h2 class="section-title">Pick a Surprise 💝</h2>
+      <div class="cards">
+        <div class="flip" tabindex="0">
+          <div class="flip-inner">
+            <div class="front">Tap to reveal a love note 💌</div>
+            <div class="back">No matter the day, my favorite place is by your side. Always. ♾️</div>
+          </div>
+        </div>
+        <div class="flip" tabindex="0">
+          <div class="flip-inner">
+            <div class="front">Tap for a wish 🌟</div>
+            <div class="back">May every dream of yours find its wings this year. I’ll be your wind. 🕊️</div>
+          </div>
+        </div>
+        <div class="flip" tabindex="0">
+          <div class="flip-inner">
+            <div class="front">Tap for a promise 🤞</div>
+            <div class="back">Today, tomorrow, forever—count on me to love you a little more each day. ❤️</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIMELINE -->
+  <section>
+    <div class="container">
+      <h2 class="section-title">Our Little Timeline ⏳</h2>
+      <div class="timeline">
+        <div class="moment">
+          <div class="dot"></div>
+          <div class="card">The day we met—my heart learned a new rhythm.</div>
+        </div>
+        <div class="moment">
+          <div class="dot"></div>
+          <div class="card">First laugh together—music I never want to stop.</div>
+        </div>
+        <div class="moment">
+          <div class="dot"></div>
+          <div class="card">Today—celebrating the brightest star in my sky: <strong id="herName2">You</strong> ✨</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section>
+    <div class="container">
+      <h2 class="section-title">Mini Quiz (for fun) 💫</h2>
+      <div class="quiz" id="quiz">
+        <div class="q">
+          <div>1) What makes me smile instantly?</div>
+          <div class="choices">
+            <button class="choice">Pizza 🍕</button>
+            <button class="choice" data-correct>Seeing your face 😊</button>
+            <button class="choice">Rain ☔</button>
+          </div>
+        </div>
+        <div class="q">
+          <div>2) My favorite plan is…</div>
+          <div class="choices">
+            <button class="choice" data-correct>Any plan with you 🤍</button>
+            <button class="choice">Bungee jumping 🪂</button>
+            <button class="choice">Shopping spree 🛍️</button>
+          </div>
+        </div>
+        <div class="q">
+          <div>3) The perfect wish for you is…</div>
+          <div class="choices">
+            <button class="choice">A new phone 📱</button>
+            <button class="choice">Unlimited cake 🎂</button>
+            <button class="choice" data-correct>Endless joy & love ✨</button>
+          </div>
+        </div>
+        <div class="note muted" id="quizMsg">Pick the answers you feel are right 💖</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    Made with ❤️ by <span id="yourName">Your Biggest Fan</span> • Tap the heart rain anywhere ✨
+  </footer>
+
+  <!-- MODAL GIFT -->
+  <dialog id="giftModal">
+    <div class="modal-card">
+      <div class="gift" id="gift">
+        <div class="box ribbon"></div>
+        <div class="lid ribbon"></div>
+      </div>
+      <h3 class="section-title" style="text-align:center; margin:0 0 8px">For You, My Always 💝</h3>
+      <p class="muted" style="text-align:center; margin:0 0 16px">Every day with you is my favorite. Thank you for being you.</p>
+      <div class="note">I love you more than words and less than tomorrow. Happy Birthday! 🎂✨</div>
+      <div class="cta" style="margin-top:14px">
+        <form method="dialog"><button class="btn secondary">Close</button></form>
+        <button class="btn" id="confettiAgain">Celebrate 🎉</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- MUSIC -->
+  <button class="music-toggle" id="musicBtn">🔈 Music</button>
+  <audio id="music" loop>
+    <!-- Replace with a romantic mp3 URL you own rights to -->
+    <source src="https://www.computerhope.com/jargon/m/example.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    // ====== Personalize Quickly ======
+    const HER_NAME = "My Love";   // 👉 replace with her name
+    const YOUR_NAME = "Your Name"; // 👉 replace with your name
+    document.getElementById('herName').textContent = HER_NAME;
+    document.getElementById('herName2').textContent = HER_NAME;
+    document.getElementById('yourName').textContent = YOUR_NAME;
+
+    // ====== Typewriter ======
+    const lines = [
+      `Happy Birthday, ${HER_NAME}!`,
+      "You are my favorite person in every universe.",
+      "Today is all about you—let's make magic ✨",
+    ];
+    const tw = document.getElementById('typewriter');
+    let li = 0, ch = 0, erase = false;
+    function tick(){
+      const full = lines[li];
+      tw.textContent = erase ? full.slice(0, ch--) : full.slice(0, ch++);
+      if(!erase && ch > full.length + 8){ erase = true; }
+      if(erase && ch < 0){ erase = false; ch = 0; li = (li+1)%lines.length; }
+      setTimeout(tick, 50 + Math.random()*40);
+    }
+    tick();
+
+    // ====== Hearts on tap ======
+    function heartAt(x,y){
+      const h = document.createElement('div');
+      h.className='heart';
+      h.style.left = x+'px'; h.style.top = y+'px';
+      h.textContent = ['💖','💘','💞','💓'][Math.floor(Math.random()*4)];
+      document.body.appendChild(h);
+      setTimeout(()=>h.remove(), 6000);
+    }
+    addEventListener('pointerdown', e=> heartAt(e.clientX, e.clientY));
+
+    // ====== Gift Modal + Confetti ======
+    const giftModal = document.getElementById('giftModal');
+    const openGift = document.getElementById('openGift');
+    const confettiBtn = document.getElementById('burstConfetti');
+    const confettiCanvas = document.getElementById('confetti');
+    const ctx = confettiCanvas.getContext('2d');
+    let confs = [];
+
+    function resizeConfetti(){
+      confettiCanvas.width = innerWidth; confettiCanvas.height = innerHeight;
+    }
+    addEventListener('resize', resizeConfetti); resizeConfetti();
+
+    function makeConfetti(count=160){
+      confs = Array.from({length:count}, ()=>({
+        x: Math.random()*confettiCanvas.width,
+        y: -10 - Math.random()*confettiCanvas.height,
+        s: 2+Math.random()*6,
+        v: 2+Math.random()*3,
+        r: Math.random()*Math.PI,
+        c: `hsl(${Math.random()*360},90%,65%)`
+      }));
+    }
+    function drawConfetti(){
+      ctx.clearRect(0,0,confettiCanvas.width,confettiCanvas.height);
+      confs.forEach(p=>{
+        p.y += p.v; p.x += Math.sin(p.y*0.01)*1.5; p.r += 0.05;
+        ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.r); ctx.fillStyle=p.c;
+        ctx.fillRect(-p.s/2,-p.s/2,p.s,p.s*2); ctx.restore();
+      });
+      confs = confs.filter(p=> p.y < confettiCanvas.height+20);
+      if(confs.length) requestAnimationFrame(drawConfetti);
+    }
+    function boom(){ makeConfetti(); drawConfetti(); }
+
+    openGift.addEventListener('click', ()=>{ giftModal.showModal(); document.getElementById('gift').classList.add('open'); boom(); });
+    document.getElementById('confettiAgain').addEventListener('click', boom);
+    confettiBtn.addEventListener('click', boom);
+
+    // ====== Smooth scroll to gallery ======
+    document.getElementById('scrollGallery').addEventListener('click', ()=>{
+      document.getElementById('gallery').scrollIntoView({behavior:'smooth'});
+    });
+
+    // ====== Carousel with swipe ======
+    const track = document.getElementById('track');
+    const slides = [...track.children];
+    const dotsWrap = document.getElementById('dots');
+    let idx = 0, startX = 0, dx = 0, auto;
+
+    function goto(i){ idx = (i+slides.length)%slides.length; track.style.transform = `translateX(${-idx*100}%)`; [...dotsWrap.children].forEach((d,j)=> d.classList.toggle('active', j===idx)); }
+    function buildDots(){ slides.forEach((_,i)=>{ const d=document.createElement('button'); d.className='dot'; d.addEventListener('click',()=>goto(i)); dotsWrap.appendChild(d);}); goto(0); }
+    function autoplay(){ clearInterval(auto); auto=setInterval(()=>goto(idx+1), 3500); }
+
+    buildDots(); autoplay();
+
+    track.addEventListener('pointerdown', e=>{ startX = e.clientX; dx=0; track.style.transition='none'; track.setPointerCapture(e.pointerId); clearInterval(auto); });
+    track.addEventListener('pointermove', e=>{ if(startX){ dx = e.clientX-startX; track.style.transform = `translateX(calc(${-idx*100}% + ${dx}px))`; }});
+    addEventListener('pointerup', ()=>{ if(startX){ if(Math.abs(dx)>80) goto(idx + (dx<0?1:-1)); else goto(idx); track.style.transition=''; startX=0; autoplay(); }});
+
+    // ====== Flip cards keyboard support ======
+    document.querySelectorAll('.flip').forEach(el=>{
+      el.addEventListener('click', ()=> el.classList.toggle('active'));
+      el.addEventListener('keydown', e=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); el.classList.toggle('active'); }});
+    });
+
+    // ====== Quiz ======
+    const quiz = document.getElementById('quiz');
+    const quizMsg = document.getElementById('quizMsg');
+    quiz.querySelectorAll('.choice').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const sibs = [...btn.parentElement.children];
+        sibs.forEach(s=> s.classList.remove('correct','wrong'));
+        btn.classList.add(btn.hasAttribute('data-correct') ? 'correct' : 'wrong');
+        if(btn.hasAttribute('data-correct')){
+          quizMsg.textContent = "Correct! You win unlimited hugs 💞";
+          boom();
+        } else {
+          quizMsg.textContent = "Nice try 😄 Hint: it's always about love!";
+        }
+      })
+    })
+
+    // ====== Music toggle ======
+    const music = document.getElementById('music');
+    const musicBtn = document.getElementById('musicBtn');
+    let playing = false;
+    async function toggleMusic(){
+      try{
+        if(!playing){ await music.play(); musicBtn.textContent='🔊 Music On'; playing = true; }
+        else { music.pause(); musicBtn.textContent='🔈 Music'; playing = false; }
+      }catch(e){ console.log(e); }
+    }
+    musicBtn.addEventListener('click', toggleMusic);
+
+  </script>
 </body>
 </html>
